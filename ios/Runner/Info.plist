@@ -66,5 +66,11 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+
+	<!-- Location Services Privacy Descriptions -->
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>MetroSky requires access to your location to display real-time weather forecasts, air quality, and precipitation radar for your current position.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>MetroSky requires access to your location to display real-time weather forecasts, air quality, and precipitation radar for your current position.</string>
 </dict>
 </plist>
