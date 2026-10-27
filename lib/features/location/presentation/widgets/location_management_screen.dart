@@ -158,7 +158,7 @@ class LocationManagementScreen extends ConsumerWidget {
                     return ReorderableListView.builder(
                       physics: const BouncingScrollPhysics(),
                       itemCount: locations.length,
-                      onReorderItem: (oldIndex, newIndex) {
+                      onReorder: (oldIndex, newIndex) {
                         ref
                             .read(savedLocationsControllerProvider.notifier)
                             .reorder(oldIndex, newIndex);

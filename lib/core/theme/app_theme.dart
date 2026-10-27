@@ -10,6 +10,7 @@ class AppTheme {
     return ThemeData(
       useMaterial3: true,
       brightness: Brightness.dark,
+      splashFactory: InkRipple.splashFactory,
       scaffoldBackgroundColor: AppColors.skyNightTop,
       colorScheme: const ColorScheme.dark(
         primary: Colors.white,

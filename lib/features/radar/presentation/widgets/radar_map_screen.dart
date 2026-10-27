@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
-import 'package:maplibre_gl/mapbox_gl.dart';
+import 'package:maplibre_gl/maplibre_gl.dart';
 import '../../../../core/constants/api_endpoints.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/widgets/app_glass_card.dart';
@@ -22,10 +22,10 @@ class RadarMapScreen extends ConsumerStatefulWidget {
 }
 
 class _RadarMapScreenState extends ConsumerState<RadarMapScreen> {
-  MaplibreMapController? _mapController;
+  MapLibreMapController? _mapController;
   String? _currentRasterSourceId;
 
-  void _onMapCreated(MaplibreMapController controller) {
+  void _onMapCreated(MapLibreMapController controller) {
     _mapController = controller;
   }
 
@@ -91,7 +91,7 @@ class _RadarMapScreenState extends ConsumerState<RadarMapScreen> {
       body: Stack(
         children: [
           // 1. MapLibre GL Interactive Vector Basemap
-          MaplibreMap(
+          MapLibreMap(
             initialCameraPosition: initialCamera,
             styleString: ApiEndpoints.cartoDarkBasemapStyleUrl,
             onMapCreated: _onMapCreated,
