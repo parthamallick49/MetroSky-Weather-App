@@ -87,7 +87,15 @@ class LocationRepositoryImpl implements LocationRepository {
   @override
   Future<LocationItem> getCurrentDeviceLocation() async {
     try {
-      return await _deviceLocationDataSource.getCurrentPosition();
+      final rawPosition = await _deviceLocationDataSource.getCurrentPosition();
+      final reverseGeocoded = await _remoteDataSource.reverseGeocode(
+        latitude: rawPosition.latitude,
+        longitude: rawPosition.longitude,
+      );
+      if (reverseGeocoded != null) {
+        return reverseGeocoded;
+      }
+      return rawPosition;
     } on LocationException catch (e) {
       throw LocationFailure(message: e.message, statusCode: e.statusCode);
     } catch (e) {
