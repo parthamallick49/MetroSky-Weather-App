@@ -78,5 +78,9 @@ migrate_working_dir/
 # Coverage
 coverage/
 
+# Local agent instructions & Android Kotlin daemon caches
+AGENTS.md
+**/android/.kotlin/
+
 # Generated code (Freezed / Riverpod / Hive)
 # Keep generated files or gitignore based on team convention; standard is usually tracked or ignored.
