@@ -1,7 +1,7 @@
-# Weather App Architecture & Technical Specifications
+# MetroSky Architecture & Technical Specifications
 
 ## 1. Overview
-Next-Gen realistic weather application built with Flutter, targeting high performance (60/120 FPS), visual tactility, offline resilience, and clean separation of concerns inspired by Apple Weather and Overdrop.
+**MetroSky** is a Next-Gen realistic weather application built with Flutter, targeting high performance (60/120 FPS), visual tactility, offline resilience, and clean separation of concerns inspired by Apple Weather and Overdrop.
 
 ---
 

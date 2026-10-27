@@ -1,6 +1,6 @@
-# 🌦️ Next-Gen Realistic Weather App in Flutter
+# 🌦️ MetroSky: Next-Gen Realistic Weather App in Flutter
 
-An ultra-polished, hyper-realistic, fluid Flutter weather application inspired by Apple Weather and Overdrop. Built with Feature-First Clean Architecture, Riverpod 2.0 (code generation), Impeller fragment shaders, MapLibre radar integration, and Stale-While-Revalidate offline caching via Hive.
+**MetroSky** is an ultra-polished, hyper-realistic, fluid Flutter weather application inspired by Apple Weather and Overdrop. Built with Feature-First Clean Architecture, Riverpod 2.0 (code generation), Impeller fragment shaders, MapLibre radar integration, and Stale-While-Revalidate offline caching via Hive.
 
 ---
 

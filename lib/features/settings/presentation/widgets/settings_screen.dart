@@ -227,6 +227,11 @@ class SettingsScreen extends ConsumerWidget {
                             title: 'Icons & Aesthetics',
                             source: 'Lucide Icons & Apple Weather Inspired Aesthetic',
                           ),
+                          Divider(color: Colors.white12, height: 16.0),
+                          _AttributionTile(
+                            title: 'MetroSky App',
+                            source: 'Version 1.0.0 (Build 1) · Production Ready',
+                          ),
                         ],
                       ),
                     ),
