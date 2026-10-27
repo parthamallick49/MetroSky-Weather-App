@@ -1,12 +1,15 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../../../../../core/theme/app_colors.dart';
 import '../../../../../core/theme/app_typography.dart';
+import '../../../../../core/utils/unit_converter.dart';
 import '../../../../../core/widgets/app_glass_card.dart';
+import '../../../../settings/presentation/controllers/settings_controller.dart';
 
 /// Bento card featuring a rotating compass rose and real-time wind metrics.
-class WindCompassCard extends StatelessWidget {
+class WindCompassCard extends ConsumerWidget {
   const WindCompassCard({
     super.key,
     required this.windSpeedKmh,
@@ -23,8 +26,10 @@ class WindCompassCard extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final cardinal = _getCardinalDirection(windDirectionDegrees);
+    final preferences = ref.watch(userPreferencesProvider);
+    final convertedSpeed = UnitConverter.convertWindSpeed(windSpeedKmh, preferences.windSpeedUnit);
 
     return AppGlassCard(
       child: Column(
@@ -53,13 +58,13 @@ class WindCompassCard extends StatelessWidget {
                     textBaseline: TextBaseline.alphabetic,
                     children: [
                       Text(
-                        windSpeedKmh.round().toString(),
+                        convertedSpeed.round().toString(),
                         style: AppTypography.metricValue,
                       ),
                       const SizedBox(width: 4.0),
-                      const Text(
-                        'km/h',
-                        style: TextStyle(
+                      Text(
+                        preferences.windSpeedUnit.symbol,
+                        style: const TextStyle(
                           fontSize: 14.0,
                           fontWeight: FontWeight.w500,
                           color: AppColors.textSecondary,

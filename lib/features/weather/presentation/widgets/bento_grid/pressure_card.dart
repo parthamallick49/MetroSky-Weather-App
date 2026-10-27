@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../../../../../core/theme/app_colors.dart';
 import '../../../../../core/theme/app_typography.dart';
 import '../../../../../core/utils/temperature_formatter.dart';
+import '../../../../../core/utils/unit_converter.dart';
 import '../../../../../core/widgets/app_glass_card.dart';
+import '../../../../settings/domain/entities/user_preferences.dart';
+import '../../../../settings/presentation/controllers/settings_controller.dart';
 
 /// Bento card displaying surface barometric pressure and humidity/dew point.
-class PressureCard extends StatelessWidget {
+class PressureCard extends ConsumerWidget {
   const PressureCard({
     super.key,
     required this.surfacePressureHpa,
@@ -25,8 +29,15 @@ class PressureCard extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final tendency = _getPressureTendency(surfacePressureHpa);
+    final preferences = ref.watch(userPreferencesProvider);
+    final convertedPressure = UnitConverter.convertPressure(surfacePressureHpa, preferences.pressureUnit);
+    final pressureString = preferences.pressureUnit == PressureUnit.inHg
+        ? convertedPressure.toStringAsFixed(2)
+        : convertedPressure.round().toString();
+
+    final isFahrenheit = preferences.temperatureUnit == TemperatureUnit.fahrenheit;
 
     return AppGlassCard(
       child: Column(
@@ -48,13 +59,13 @@ class PressureCard extends StatelessWidget {
             textBaseline: TextBaseline.alphabetic,
             children: [
               Text(
-                surfacePressureHpa.round().toString(),
+                pressureString,
                 style: AppTypography.metricValue,
               ),
               const SizedBox(width: 4.0),
-              const Text(
-                'hPa',
-                style: TextStyle(
+              Text(
+                preferences.pressureUnit.symbol,
+                style: const TextStyle(
                   fontSize: 14.0,
                   fontWeight: FontWeight.w500,
                   color: AppColors.textSecondary,
@@ -82,7 +93,7 @@ class PressureCard extends StatelessWidget {
                 children: [
                   const Text('Dew Point', style: TextStyle(fontSize: 12.0, color: AppColors.textTertiary)),
                   Text(
-                    TemperatureFormatter.format(dewPointCelsius),
+                    TemperatureFormatter.format(dewPointCelsius, isFahrenheit: isFahrenheit),
                     style: const TextStyle(fontSize: 16.0, fontWeight: FontWeight.w600, color: Colors.white),
                   ),
                 ],

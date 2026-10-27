@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../../../../core/constants/wmo_weather_codes.dart';
 import '../../../../core/theme/app_colors.dart';
@@ -6,10 +7,12 @@ import '../../../../core/theme/app_typography.dart';
 import '../../../../core/utils/date_formatter.dart';
 import '../../../../core/utils/temperature_formatter.dart';
 import '../../../../core/widgets/app_glass_card.dart';
+import '../../../settings/domain/entities/user_preferences.dart';
+import '../../../settings/presentation/controllers/settings_controller.dart';
 import '../../domain/entities/hourly_weather.dart';
 
 /// 24-Hour horizontal hourly forecast bar with precipitation probability and temperature trends.
-class HourlyTemperatureChart extends StatelessWidget {
+class HourlyTemperatureChart extends ConsumerWidget {
   const HourlyTemperatureChart({
     super.key,
     required this.hourlyForecasts,
@@ -43,7 +46,9 @@ class HourlyTemperatureChart extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final preferences = ref.watch(userPreferencesProvider);
+    final isFahrenheit = preferences.temperatureUnit == TemperatureUnit.fahrenheit;
     final displayList = hourlyForecasts.take(maxHours).toList();
     final now = DateTime.now();
 
@@ -121,7 +126,7 @@ class HourlyTemperatureChart extends StatelessWidget {
 
                     // Hourly Temperature
                     Text(
-                      TemperatureFormatter.format(item.temperature),
+                      TemperatureFormatter.format(item.temperature, isFahrenheit: isFahrenheit),
                       style: const TextStyle(
                         fontSize: 15.0,
                         fontWeight: FontWeight.w600,

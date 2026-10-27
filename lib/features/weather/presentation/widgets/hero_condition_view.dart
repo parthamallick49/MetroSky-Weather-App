@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/theme/app_typography.dart';
 import '../../../../core/utils/temperature_formatter.dart';
+import '../../../settings/domain/entities/user_preferences.dart';
+import '../../../settings/presentation/controllers/settings_controller.dart';
 import '../../domain/entities/current_weather.dart';
 import '../../domain/entities/daily_forecast.dart';
 
 /// Hero header view displaying location, massive temperature, condition, and high/low range.
-class HeroConditionView extends StatelessWidget {
+class HeroConditionView extends ConsumerWidget {
   const HeroConditionView({
     super.key,
     required this.cityName,
@@ -18,10 +21,17 @@ class HeroConditionView extends StatelessWidget {
   final DailyForecast? todayDaily;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final preferences = ref.watch(userPreferencesProvider);
+    final isFahrenheit = preferences.temperatureUnit == TemperatureUnit.fahrenheit;
+
     final highTemp = todayDaily?.maxTemperature ?? current.temperature;
     final lowTemp = todayDaily?.minTemperature ?? current.temperature;
-    final rangeText = TemperatureFormatter.formatRange(highTemp, lowTemp);
+    final rangeText = TemperatureFormatter.formatRange(
+      highTemp,
+      lowTemp,
+      isFahrenheit: isFahrenheit,
+    );
 
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -38,7 +48,7 @@ class HeroConditionView extends StatelessWidget {
 
         // Hero Temperature Display
         Text(
-          TemperatureFormatter.format(current.temperature),
+          TemperatureFormatter.format(current.temperature, isFahrenheit: isFahrenheit),
           style: AppTypography.displayTemp,
           textAlign: TextAlign.center,
         ),
@@ -65,7 +75,7 @@ class HeroConditionView extends StatelessWidget {
             ),
             const SizedBox(width: 12.0),
             Text(
-              'Feels like ${TemperatureFormatter.format(current.apparentTemperature)}',
+              'Feels like ${TemperatureFormatter.format(current.apparentTemperature, isFahrenheit: isFahrenheit)}',
               style: const TextStyle(
                 fontSize: 14.0,
                 fontWeight: FontWeight.w400,
@@ -79,3 +89,4 @@ class HeroConditionView extends StatelessWidget {
     );
   }
 }
+

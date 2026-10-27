@@ -1,5 +1,6 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../../../../core/constants/wmo_weather_codes.dart';
 import '../../../../core/theme/app_colors.dart';
@@ -7,10 +8,12 @@ import '../../../../core/theme/app_typography.dart';
 import '../../../../core/utils/date_formatter.dart';
 import '../../../../core/utils/temperature_formatter.dart';
 import '../../../../core/widgets/app_glass_card.dart';
+import '../../../settings/domain/entities/user_preferences.dart';
+import '../../../settings/presentation/controllers/settings_controller.dart';
 import '../../domain/entities/daily_forecast.dart';
 
 /// 7-Day forecast list featuring Apple Weather-style temperature gradient range bars.
-class DailyForecastList extends StatelessWidget {
+class DailyForecastList extends ConsumerWidget {
   const DailyForecastList({
     super.key,
     required this.dailyForecasts,
@@ -42,8 +45,11 @@ class DailyForecastList extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     if (dailyForecasts.isEmpty) return const SizedBox.shrink();
+
+    final preferences = ref.watch(userPreferencesProvider);
+    final isFahrenheit = preferences.temperatureUnit == TemperatureUnit.fahrenheit;
 
     // 1. Calculate the week's global minimum and maximum bounds
     var weekMin = double.infinity;
@@ -126,7 +132,7 @@ class DailyForecastList extends StatelessWidget {
                   SizedBox(
                     width: 34.0,
                     child: Text(
-                      TemperatureFormatter.format(day.minTemperature),
+                      TemperatureFormatter.format(day.minTemperature, isFahrenheit: isFahrenheit),
                       textAlign: TextAlign.end,
                       style: const TextStyle(
                         fontSize: 15.0,
@@ -188,7 +194,7 @@ class DailyForecastList extends StatelessWidget {
                   SizedBox(
                     width: 34.0,
                     child: Text(
-                      TemperatureFormatter.format(day.maxTemperature),
+                      TemperatureFormatter.format(day.maxTemperature, isFahrenheit: isFahrenheit),
                       textAlign: TextAlign.start,
                       style: const TextStyle(
                         fontSize: 15.0,

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../features/location/presentation/widgets/location_management_screen.dart';
 import '../../features/radar/presentation/widgets/radar_map_screen.dart';
+import '../../features/settings/presentation/widgets/settings_screen.dart';
 import '../../features/weather/presentation/widgets/weather_dashboard_screen.dart';
 
 /// Top-level application routes enum.
@@ -35,6 +36,11 @@ final goRouterProvider = Provider<GoRouter>((ref) {
         path: AppRoute.radarMap.path,
         name: AppRoute.radarMap.name,
         builder: (context, state) => const RadarMapScreen(),
+      ),
+      GoRoute(
+        path: AppRoute.settings.path,
+        name: AppRoute.settings.name,
+        builder: (context, state) => const SettingsScreen(),
       ),
     ],
     errorBuilder: (context, state) => Scaffold(

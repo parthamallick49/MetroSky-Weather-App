@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/constants/wmo_weather_codes.dart';
 import '../../../../core/utils/solar_calculator.dart';
+import '../../settings/presentation/controllers/settings_controller.dart';
 import 'shaders/shader_manager.dart';
 import 'shaders/weather_shader_painter.dart';
 import 'sky/dynamic_sky_gradient.dart';
@@ -93,6 +94,8 @@ class _WeatherSceneScaffoldState extends ConsumerState<WeatherSceneScaffold>
   Widget build(BuildContext context) {
     // Calculate normalized wind factor (-1.0 to 1.0)
     final windFactor = (widget.windSpeedKmh / 50.0).clamp(-1.0, 1.0);
+    final preferences = ref.watch(userPreferencesProvider);
+    final allowShaders = preferences.enableShaders && preferences.enableParticles;
 
     return Scaffold(
       backgroundColor: Colors.black,
@@ -108,7 +111,7 @@ class _WeatherSceneScaffoldState extends ConsumerState<WeatherSceneScaffold>
           ),
 
           // 2. Ambient GPU Particle Shader Layer (Impeller)
-          if (_currentShader != null)
+          if (allowShaders && _currentShader != null)
             AnimatedBuilder(
               animation: _ticker,
               builder: (context, _) {

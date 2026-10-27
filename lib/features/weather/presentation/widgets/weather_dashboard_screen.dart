@@ -101,7 +101,7 @@ class WeatherDashboardScreen extends ConsumerWidget {
                               AppIconButton(
                                 icon: LucideIcons.settings,
                                 tooltip: 'Settings',
-                                onPressed: () {},
+                                onPressed: () => context.push(AppRoute.settings.path),
                               ),
                             ],
                           ),
