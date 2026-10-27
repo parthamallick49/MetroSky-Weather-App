@@ -89,10 +89,21 @@ class WeatherDashboardScreen extends ConsumerWidget {
                               color: AppColors.textPrimary,
                             ),
                           ),
-                          AppIconButton(
-                            icon: LucideIcons.settings,
-                            tooltip: 'Settings',
-                            onPressed: () {},
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              AppIconButton(
+                                icon: LucideIcons.radar,
+                                tooltip: 'Radar Map',
+                                onPressed: () => context.push(AppRoute.radarMap.path),
+                              ),
+                              const SizedBox(width: 8.0),
+                              AppIconButton(
+                                icon: LucideIcons.settings,
+                                tooltip: 'Settings',
+                                onPressed: () {},
+                              ),
+                            ],
                           ),
                         ],
                       ),
