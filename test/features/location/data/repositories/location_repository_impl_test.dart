@@ -6,6 +6,8 @@ import 'package:weather_app/features/location/data/repositories/location_reposit
 import 'package:weather_app/features/location/domain/entities/location_item.dart';
 
 class MockGeocodingRemoteDataSource implements GeocodingRemoteDataSource {
+  bool shouldReturnCity = true;
+
   @override
   Future<List<LocationItem>> searchCities(String query) async {
     if (query == 'Paris') {
@@ -14,6 +16,23 @@ class MockGeocodingRemoteDataSource implements GeocodingRemoteDataSource {
       ];
     }
     return [];
+  }
+
+  @override
+  Future<LocationItem?> reverseGeocode({
+    required double latitude,
+    required double longitude,
+  }) async {
+    if (shouldReturnCity) {
+      return LocationItem(
+        name: 'San Francisco',
+        country: 'United States',
+        latitude: latitude,
+        longitude: longitude,
+        isCurrentLocation: true,
+      );
+    }
+    return null;
   }
 }
 
@@ -101,10 +120,21 @@ void main() {
       expect(list.last.name, 'London');
     });
 
-    test('retrieves current device GPS position', () async {
+    test('retrieves current device GPS position with reverse-geocoded city name', () async {
       final gpsLocation = await repository.getCurrentDeviceLocation();
       expect(gpsLocation.isCurrentLocation, isTrue);
       expect(gpsLocation.latitude, 37.7749);
+      expect(gpsLocation.name, 'San Francisco');
+      expect(gpsLocation.country, 'United States');
+    });
+
+    test('falls back to raw position if reverse geocoding returns null', () async {
+      remote.shouldReturnCity = false;
+      final gpsLocation = await repository.getCurrentDeviceLocation();
+      expect(gpsLocation.isCurrentLocation, isTrue);
+      expect(gpsLocation.latitude, 37.7749);
+      expect(gpsLocation.name, 'Current Location');
+      expect(gpsLocation.country, 'GPS');
     });
   });
 }

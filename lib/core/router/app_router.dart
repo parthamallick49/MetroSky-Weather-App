@@ -4,11 +4,13 @@ import 'package:go_router/go_router.dart';
 import '../../features/location/presentation/widgets/location_management_screen.dart';
 import '../../features/radar/presentation/widgets/radar_map_screen.dart';
 import '../../features/settings/presentation/widgets/settings_screen.dart';
+import '../../features/splash/presentation/widgets/splash_screen.dart';
 import '../../features/weather/presentation/widgets/weather_dashboard_screen.dart';
 
 /// Top-level application routes enum.
 enum AppRoute {
-  dashboard('/'),
+  splash('/'),
+  dashboard('/dashboard'),
   locationManagement('/locations'),
   radarMap('/radar'),
   settings('/settings');
@@ -20,8 +22,13 @@ enum AppRoute {
 /// Declarative GoRouter configuration.
 final goRouterProvider = Provider<GoRouter>((ref) {
   return GoRouter(
-    initialLocation: AppRoute.dashboard.path,
+    initialLocation: AppRoute.splash.path,
     routes: [
+      GoRoute(
+        path: AppRoute.splash.path,
+        name: AppRoute.splash.name,
+        builder: (context, state) => const SplashScreen(),
+      ),
       GoRoute(
         path: AppRoute.dashboard.path,
         name: AppRoute.dashboard.name,
