@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
+import '../../../../core/router/app_router.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/utils/solar_calculator.dart';
 import '../../../../core/widgets/app_error_state_view.dart';
@@ -77,7 +79,7 @@ class WeatherDashboardScreen extends ConsumerWidget {
                           AppIconButton(
                             icon: LucideIcons.menu,
                             tooltip: 'Locations',
-                            onPressed: () {},
+                            onPressed: () => context.push(AppRoute.locationManagement.path),
                           ),
                           Text(
                             activeLocation.cityName,
@@ -191,13 +193,13 @@ class _DashboardLoadingSkeleton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       backgroundColor: AppColors.skyNightTop,
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 16.0),
+          padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 16.0),
           child: SingleChildScrollView(
-            physics: const NeverScrollableScrollPhysics(),
+            physics: NeverScrollableScrollPhysics(),
             child: Column(
               children: [
                 // Header Nav
@@ -205,44 +207,47 @@ class _DashboardLoadingSkeleton extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     AppShimmerPlaceholder.circular(size: 44.0),
-                    const AppShimmerPlaceholder(width: 120.0, height: 24.0),
+                    AppShimmerPlaceholder(width: 120.0, height: 24.0),
                     AppShimmerPlaceholder.circular(size: 44.0),
                   ],
                 ),
-                const SizedBox(height: 36.0),
+                SizedBox(height: 36.0),
 
                 // Hero Skeleton
-                const AppShimmerPlaceholder(width: 160.0, height: 28.0),
-                const SizedBox(height: 16.0),
-                const AppShimmerPlaceholder(width: 200.0, height: 84.0),
-                const SizedBox(height: 12.0),
-                const AppShimmerPlaceholder(width: 140.0, height: 20.0),
-                const SizedBox(height: 32.0),
+                AppShimmerPlaceholder(width: 160.0, height: 28.0),
+                SizedBox(height: 16.0),
+                AppShimmerPlaceholder(width: 200.0, height: 84.0),
+                SizedBox(height: 12.0),
+                AppShimmerPlaceholder(width: 140.0, height: 20.0),
+                SizedBox(height: 32.0),
 
                 // Hourly Chart Skeleton
                 AppGlassCard(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const AppShimmerPlaceholder(width: 140.0, height: 16.0),
-                      const SizedBox(height: 16.0),
+                      AppShimmerPlaceholder(width: 140.0, height: 16.0),
+                      SizedBox(height: 16.0),
                       SizedBox(
                         height: 100.0,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: List.generate(
-                            5,
-                            (index) => const AppShimmerPlaceholder(width: 48.0, height: 96.0),
-                          ),
+                          children: [
+                            AppShimmerPlaceholder(width: 48.0, height: 96.0),
+                            AppShimmerPlaceholder(width: 48.0, height: 96.0),
+                            AppShimmerPlaceholder(width: 48.0, height: 96.0),
+                            AppShimmerPlaceholder(width: 48.0, height: 96.0),
+                            AppShimmerPlaceholder(width: 48.0, height: 96.0),
+                          ],
                         ),
                       ),
                     ],
                   ),
                 ),
-                const SizedBox(height: 16.0),
+                SizedBox(height: 16.0),
 
                 // 7-Day Forecast Skeleton
-                const AppGlassCard(
+                AppGlassCard(
                   height: 180.0,
                   child: Center(
                     child: AppShimmerPlaceholder(width: double.infinity, height: 140.0),

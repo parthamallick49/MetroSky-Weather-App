@@ -13,18 +13,15 @@ class AppShimmerPlaceholder extends StatelessWidget {
     this.highlightColor = const Color(0x33FFFFFF),
   });
 
-  /// Factory constructor for circular avatar/icon placeholders.
-  factory AppShimmerPlaceholder.circular({
-    Key? key,
+  /// Const constructor for circular avatar/icon placeholders.
+  const AppShimmerPlaceholder.circular({
+    super.key,
     required double size,
-  }) {
-    return AppShimmerPlaceholder(
-      key: key,
-      width: size,
-      height: size,
-      borderRadius: size / 2,
-    );
-  }
+  })  : width = size,
+        height = size,
+        borderRadius = size / 2,
+        baseColor = const Color(0x1AFFFFFF),
+        highlightColor = const Color(0x33FFFFFF);
 
   final double? width;
   final double? height;
